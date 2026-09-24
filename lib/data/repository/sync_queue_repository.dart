@@ -13,6 +13,8 @@ abstract class SyncQueueRepository {
 
   Future<void> increaseCountRequest(SyncQueue syncQueue);
 
+  Future<void> resetCountRequestAndSyncState();
+
   Stream<List<SyncQueue>> watchSyncQueuesPendingOrErr();
 }
 
@@ -49,5 +51,10 @@ class SyncQueueRepositoryImpl implements SyncQueueRepository {
   @override
   Stream<List<SyncQueue>> watchSyncQueuesPendingOrErr() {
     return _local.watchSyncQueuesPendingOrErr();
+  }
+
+  @override
+  Future<void> resetCountRequestAndSyncState() async {
+    await _local.resetCountRequestAndSyncState();
   }
 }

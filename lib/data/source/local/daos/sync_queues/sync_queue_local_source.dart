@@ -13,6 +13,8 @@ abstract class SyncQueueLocalSource {
 
   Future<void> increaseCountRequest(SyncQueue syncQueue);
 
+  Future<void> resetCountRequestAndSyncState();
+
   Stream<List<SyncQueue>> watchSyncQueuesPendingOrErr();
 }
 
@@ -49,5 +51,10 @@ class SyncQueueLocalSourceImpl implements SyncQueueLocalSource {
   @override
   Stream<List<SyncQueue>> watchSyncQueuesPendingOrErr() {
     return _syncQueuesDao.watchSyncQueuesPendingOrErr();
+  }
+
+  @override
+  Future<void> resetCountRequestAndSyncState() async {
+    await _syncQueuesDao.resetCountRequestAndSyncState();
   }
 }
