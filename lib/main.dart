@@ -14,6 +14,9 @@ import 'package:lexifold/utils/routes_name.dart';
 import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
 
+final GlobalKey<NavigatorState> navigatorKey =
+    GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -23,6 +26,8 @@ void main() async {
   runApp(
     ProviderScope(
       child: MaterialApp(
+        navigatorKey: navigatorKey,
+
         //routes
         routes: {
           RoutesName.verifySignUp: (context) =>

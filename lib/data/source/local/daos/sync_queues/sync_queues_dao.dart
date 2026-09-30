@@ -100,6 +100,7 @@ class SyncQueuesDao extends DatabaseAccessor<LexiFoldDatabase>
           (tbl) =>
               tbl.countRequest.isBiggerOrEqual(const Constant(5)) &
               tbl.syncState.equals(SyncState.failed.name) &
+              tbl.lastRequestFailedAt.isNotNull() &
               tbl.lastRequestFailedAt.isSmallerOrEqualValue(
                 dateNowSubtract5h,
               ),

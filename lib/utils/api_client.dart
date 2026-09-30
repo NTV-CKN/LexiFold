@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class ApiClient {
   late final Dio _dio;
   final FirebaseAuth _firebaseAuth;
-  final Future<void> Function()? _onLogout;
+  Future<void> Function()? _onLogout;
 
   ApiClient({
     required this._firebaseAuth,
@@ -73,6 +73,10 @@ class ApiClient {
         },
       ),
     );
+  }
+
+  void setOnLogoutListener(Future<void> Function() onLogout) {
+    this._onLogout = onLogout;
   }
 
   //Đoạn phương thức này gọi lệnh refresh đểlàm mới jwt (access) từ FirebsaeAuth

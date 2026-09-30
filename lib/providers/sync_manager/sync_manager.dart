@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lexifold/data/enums/sync_option.dart';
+import 'package:lexifold/providers/core/local_db/lexi_fold_db_provider.dart';
 import 'package:lexifold/providers/core/network/network_info_provider.dart';
 import 'package:lexifold/providers/study_sets/study_sets_core_provider.dart';
 import 'package:lexifold/providers/sync_manager/sync_queue_core_provider.dart';
@@ -55,12 +56,17 @@ class SyncManagerNotifier extends AsyncNotifier<SyncState?> {
   FutureOr<SyncState?> build() async {
     _listenNetworkState();
     _listenQueueTasks();
+
     ref.onDispose(() {
       _isDisposed = true;
       _queueTasks?.cancel();
     });
 
     final syncQueueRepository = ref.read(syncQueueRepositoryProvider);
+
+    //Khôi phục các record có thời gian lỗi cuối lớn hơn 5 tiếng
+    await syncQueueRepository.resetCountRequestAndSyncState();
+
     final count = await syncQueueRepository.getPendingOrErrorCount();
     if (count > 0) {
       unawaited(_trySyncNow());
