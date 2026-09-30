@@ -44,6 +44,20 @@ class LexiFoldDatabase extends _$LexiFoldDatabase {
       },
     );
   }
+
+  Future<void> clearAllTables() async {
+    await transaction(() async {
+      await customStatement('PRAGMA foreign_keys = OFF;');
+
+      try {
+        for (final table in allTables) {
+          await delete(table).go();
+        }
+      } finally {
+        await customStatement('PRAGMA foreign_keys = ON;');
+      }
+    });
+  }
 }
 
 LazyDatabase _openConnection() {

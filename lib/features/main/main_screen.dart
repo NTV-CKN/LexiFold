@@ -4,6 +4,8 @@ import 'package:lexifold/features/main/home/home_screen.dart';
 import 'package:lexifold/features/main/library/library_screen.dart';
 import 'package:lexifold/features/main/main_screen_provider.dart';
 import 'package:lexifold/l10n/app_localizations.dart';
+import 'package:lexifold/providers/clean_signout/clean_signout_provider.dart';
+import 'package:lexifold/providers/core/api_client_provider.dart';
 
 class MainScreen extends ConsumerWidget {
   const MainScreen({super.key});
@@ -34,6 +36,13 @@ class MainScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cleanProvider = ref.read(cleanSignOutProvider.notifier);
+    final apiClient = ref.read(apiClientProvider);
+    //Thiết lập logic quay về màn hình đăng nhập khi token hết hiệu lực
+    apiClient.setOnLogoutListener(() async {
+      await cleanProvider.performCleanSignOut();
+    });
+
     final currentIndex = ref.watch(tabMainBottomNavProvider);
 
     final l10n = AppLocalizations.of(context)!;

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lexifold/providers/core/api_client_provider.dart';
 import 'package:lexifold/providers/core/firebase_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -28,25 +29,38 @@ class HomeScreen extends ConsumerWidget {
 
           return Padding(
             padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: TextEditingController(text: token),
-              readOnly: true, // Chỉ cho xem/coppy, không cho gõ phím
-              maxLines: 6, // Hiển thị nhiều dòng cho dễ nhìn JWT
-              decoration: InputDecoration(
-                labelText: 'JWT ID Token',
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.copy_rounded),
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: token));
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Đã sao chép Token!'),
-                      ),
-                    );
+            child: Column(
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    await ref.read(apiClientProvider).performLogout();
                   },
+                  child: Text("SignOut"),
                 ),
-              ),
+                SizedBox(height: 49),
+                TextField(
+                  controller: TextEditingController(text: token),
+                  readOnly: true,
+                  // Chỉ cho xem/coppy, không cho gõ phím
+                  maxLines: 6,
+                  // Hiển thị nhiều dòng cho dễ nhìn JWT
+                  decoration: InputDecoration(
+                    labelText: 'JWT ID Token',
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.copy_rounded),
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(text: token));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Đã sao chép Token!'),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         },
