@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lexifold/main.dart';
 import 'package:lexifold/utils/routes_name.dart';
 
 import '../../providers/core/firebase_provider.dart';
@@ -40,6 +43,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     );
 
     _animationController.forward();
+    _navigateToNextScreen();
   }
 
   @override
@@ -48,22 +52,51 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     super.dispose();
   }
 
-  void _listenAuthState() {
-    ref.listen(authStateProvider, (prev, next) {
+  void _navigateToNextScreen() {
+    ref
+        .read(authStateProvider)
+        .when(
+          data: (user) {
+            if (!mounted) return;
+
+            Future.delayed(const Duration(milliseconds: 2000), () {
+              if (user != null) {
+                navigatorKey.currentState?.pushReplacementNamed(
+                  RoutesName.mainScreen,
+                );
+              } else {
+                navigatorKey.currentState?.pushReplacementNamed(
+                  RoutesName.authScreen,
+                );
+              }
+            });
+          },
+          error: (Object error, StackTrace stackTrace) {
+            navigatorKey.currentState?.pushReplacementNamed(
+              RoutesName.authScreen,
+            );
+          },
+          loading: () {
+            _listenOnce();
+          },
+        );
+  }
+
+  void _listenOnce() {
+    //Tự động close khi widget dispose
+    ref.listenManual(authStateProvider, (prev, next) {
       next.whenData((user) {
         if (!mounted) return;
 
         Future.delayed(const Duration(milliseconds: 2000), () {
-          if (!mounted) return;
-
           if (user != null) {
-            Navigator.of(
-              context,
-            ).pushReplacementNamed(RoutesName.mainScreen);
+            navigatorKey.currentState?.pushReplacementNamed(
+              RoutesName.mainScreen,
+            );
           } else {
-            Navigator.of(
-              context,
-            ).pushReplacementNamed(RoutesName.authScreen);
+            navigatorKey.currentState?.pushReplacementNamed(
+              RoutesName.authScreen,
+            );
           }
         });
       });
@@ -72,8 +105,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    _listenAuthState();
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(

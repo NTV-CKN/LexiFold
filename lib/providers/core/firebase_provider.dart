@@ -13,7 +13,7 @@ final googleSignIn = Provider<GoogleSignIn>((ref) {
 //Provider này lắng nghe trạng thái của đối tượng user trong FirebaseAuth để
 //chuyển hướng người dùng sang màn hình trang chủ hoặc đăng nhập.
 final authStateProvider = StreamProvider((ref) {
-  final firebaseAuth = ref.watch(firebaseAuthProvider);
+  final firebaseAuth = ref.read(firebaseAuthProvider);
 
   //Tạo hot stream nghe sự thay đổi của user
   return firebaseAuth.authStateChanges();

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lexifold/features/main/library/screens/crud_study_set/form_state_provider.dart';
 import 'package:lexifold/main.dart';
 import 'package:lexifold/providers/auth/auth_provider.dart';
+import 'package:lexifold/providers/core/firebase_provider.dart';
 import 'package:lexifold/providers/core/local_db/lexi_fold_db_provider.dart';
 import 'package:lexifold/providers/sync_manager/sync_manager.dart';
 import 'package:lexifold/utils/routes_name.dart';
@@ -26,6 +27,8 @@ class CleanSignOutNotifier extends Notifier<void> {
   Future<void> performCleanSignOut() async {
     try {
       await ref.read(lexifoldDbProvider).clearAllTables();
+      await ref.read(googleSignIn).signOut();
+      await ref.read(firebaseAuthProvider).signOut();
       for (ProviderOrFamily item in userDataProvidersToCleanup) {
         ref.invalidate(item);
       }
