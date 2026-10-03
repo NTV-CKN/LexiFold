@@ -5,10 +5,13 @@ import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import '../../entities/study_set_paging_metadatas.dart';
 import '../../entities/study_sets.dart';
 import '../../entities/sync_queues.dart';
 import '../../entities/vocabularies.dart';
+import '../../enums/paging_metadata.dart';
 import '../../enums/sync_option.dart';
+import 'daos/study_sets/study_set_metadata_dao.dart';
 import 'daos/study_sets/study_sets_dao.dart';
 import 'daos/sync_queues/sync_queues_dao.dart';
 
@@ -17,15 +20,22 @@ part 'lexi_fold_database.g.dart';
 //flutter pub run build_runner build --delete-conflicting-outputs
 
 @DriftDatabase(
-  tables: [StudySets, Vocabularies, SyncQueues],
-  daos: [StudySetsDao, SyncQueuesDao],
+  tables: [
+    StudySets,
+    Vocabularies,
+    SyncQueues,
+    StudySetPagingMetadatas,
+  ],
+  daos: [StudySetsDao, SyncQueuesDao, StudySetMetadataDao],
 )
 class LexiFoldDatabase extends _$LexiFoldDatabase {
   LexiFoldDatabase({QueryExecutor? executor})
     : super(executor ?? _openConnection());
 
+  LexiFoldDatabase.withDb(NativeDatabase db) : super(db);
+
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration {

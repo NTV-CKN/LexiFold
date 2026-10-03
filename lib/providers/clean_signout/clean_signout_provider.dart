@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lexifold/features/main/library/screens/crud_study_set/form_state_provider.dart';
+import 'package:lexifold/features/main/library/screens/crud_study_set/providers/form_state_provider.dart';
 import 'package:lexifold/main.dart';
 import 'package:lexifold/providers/auth/auth_provider.dart';
 import 'package:lexifold/providers/core/firebase_provider.dart';

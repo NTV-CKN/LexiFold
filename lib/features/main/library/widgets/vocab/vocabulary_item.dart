@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lexifold/data/model/set/vocab_item.dart';
-import 'package:lexifold/features/main/library/screens/crud_study_set/form_state_provider.dart';
+import 'package:lexifold/features/main/library/screens/crud_study_set/providers/form_state_provider.dart';
 import 'package:lexifold/l10n/app_localizations.dart';
 import 'package:lexifold/utils/validator_utils.dart';
 

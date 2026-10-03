@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lexifold/data/model/result/base_result.dart';
-import 'package:lexifold/features/main/library/screens/crud_study_set/crud_study_set.dart';
-import 'package:lexifold/features/main/library/screens/crud_study_set/form_state_provider.dart';
+import 'package:lexifold/features/main/library/screens/crud_study_set/providers/crud_study_set_provider.dart';
+import 'package:lexifold/features/main/library/screens/crud_study_set/providers/form_state_provider.dart';
 import 'package:lexifold/features/main/library/widgets/vocab/vocabulary_item.dart';
 import 'package:lexifold/utils/show_progress_dialog.dart';
 import 'package:lexifold/utils/show_snackbar.dart';
