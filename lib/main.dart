@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lexifold/features/auth/auth_screen.dart';
 import 'package:lexifold/features/auth/signup_waiting_verify_screen.dart';
 import 'package:lexifold/features/auth/reset_password_screen.dart';
+import 'package:lexifold/features/common/splash_screen.dart';
 import 'package:lexifold/features/main/library/screens/crud_study_set/add_or_update_set_screen.dart';
 import 'package:lexifold/features/main/main_screen.dart';
 import 'package:lexifold/providers/sync_manager/sync_manager.dart';
@@ -75,6 +76,6 @@ class LexiFoldApp extends ConsumerWidget {
       });
     });
 
-    return const MainScreen();
+    return const SplashScreen();
   }
 }

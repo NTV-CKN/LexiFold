@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../../data/model/result/base_result.dart';
-import '../../../../../data/source/local/lexi_fold_database.dart';
-import '../../../../../providers/study_sets/study_sets_core_provider.dart';
+import '../../../../../../data/model/result/base_result.dart';
+import '../../../../../../data/source/local/lexi_fold_database.dart';
+import '../../../../../../providers/study_sets/study_sets_core_provider.dart';
 import 'form_state_provider.dart';
 
 //Start-CRUD StudySets

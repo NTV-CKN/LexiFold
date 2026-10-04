@@ -13,3 +13,9 @@ final studySetsDaoProvider = Provider((ref) {
 
   return db.studySetsDao;
 });
+
+final studySetMetadataDaoProvider = Provider((ref) {
+  final db = ref.read(lexifoldDbProvider);
+
+  return db.studySetMetadataDao;
+});

@@ -8,4 +8,8 @@ class CursorPageRequest {
     this.lastId,
     this.filters = const {},
   });
+
+  Map<String, dynamic> toJson() {
+    return {"limit": limit, "lastId": lastId, "filters": filters};
+  }
 }

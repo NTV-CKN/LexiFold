@@ -1,5 +1,8 @@
 import 'package:drift/drift.dart';
 
+import '../model/base_class_dto.dart';
+
+@DataClassName("StudySet", extending: BaseClassDto)
 class StudySets extends Table {
   TextColumn get id => text()();
 

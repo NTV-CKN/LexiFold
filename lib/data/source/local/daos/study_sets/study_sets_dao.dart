@@ -65,4 +65,63 @@ class StudySetsDao extends DatabaseAccessor<LexiFoldDatabase>
       return false;
     }
   }
+
+  ///Hàm này làm nhiệm vụ sắp xếp các record
+  ///theo ngày tạo ('createdAt') giảm dần và
+  ///sau đó thực hiện lấy 'limit' sau 'nextCursorId'.
+  Future<List<StudySet>> getStudySetsPaging({
+    required int limit,
+    String? nextCursorId,
+  }) async {
+    final query = select(studySets)
+      ..orderBy([
+        (tbl) => OrderingTerm(
+          expression: tbl.createdAt,
+          mode: OrderingMode.desc,
+        ),
+        (tbl) =>
+            OrderingTerm(expression: tbl.id, mode: OrderingMode.asc),
+      ])
+      ..limit(limit);
+
+    if (nextCursorId == null) {
+      return await query.get();
+    }
+
+    //Lấy ra đối tượng nextCursorId để check có tồn tại thật không
+    final nextCursorRecord = await (select(
+      studySets,
+    )..where((tbl) => tbl.id.equals(nextCursorId))).getSingleOrNull();
+    //Trả về mảng rỗng nếu không tồn tại
+    if (nextCursorRecord == null) return [];
+
+    query..where((tbl) {
+      final isLessThanNCR = tbl.createdAt.isSmallerThanValue(
+        nextCursorRecord.createdAt,
+      );
+      final isEqualsCreateAtButSmallerId =
+          tbl.createdAt.equals(nextCursorRecord.createdAt) &
+          tbl.id.isSmallerThanValue(nextCursorRecord.id);
+
+      return isLessThanNCR | isEqualsCreateAtButSmallerId;
+    });
+
+    return await query.get();
+  }
+
+  Future<void> saveStudySets(List<StudySet> studySetsLst) async {
+    if (studySetsLst.isEmpty) return;
+
+    await batch((batch) {
+      batch.insertAll(
+        studySets,
+        studySetsLst,
+        mode: InsertMode.insertOrReplace,
+      );
+    });
+  }
+
+  Future<void> clear() async {
+    await delete(studySets).go();
+  }
 }

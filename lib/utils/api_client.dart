@@ -94,7 +94,6 @@ class ApiClient {
   }
 
   Future<void> performLogout() async {
-    await _firebaseAuth.signOut();
     await _onLogout?.call();
   }
 
