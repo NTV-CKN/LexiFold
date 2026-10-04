@@ -11,6 +11,7 @@ import '../../entities/sync_queues.dart';
 import '../../entities/vocabularies.dart';
 import '../../enums/paging_metadata.dart';
 import '../../enums/sync_option.dart';
+import '../../model/base_class_dto.dart';
 import 'daos/study_sets/study_set_metadata_dao.dart';
 import 'daos/study_sets/study_sets_dao.dart';
 import 'daos/sync_queues/sync_queues_dao.dart';

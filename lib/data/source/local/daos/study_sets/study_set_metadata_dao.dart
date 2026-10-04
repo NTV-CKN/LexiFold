@@ -32,4 +32,12 @@ class StudySetMetadataDao extends DatabaseAccessor<LexiFoldDatabase>
       studySetPagingMetadatas,
     )..where((tbl) => tbl.categoryKey.equals(key.name))).go();
   }
+
+  Future<void> clearStudySetsMetadataByCateKey(
+    StudySetPagingEnum key,
+  ) async {
+    await (delete(
+      studySetPagingMetadatas,
+    )..where((tbl) => tbl.categoryKey.equals(key.name))).go();
+  }
 }

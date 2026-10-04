@@ -67,7 +67,7 @@ class StudySetData {
     );
   }
 
-  Map<String, dynamic> toData() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'title': title,
